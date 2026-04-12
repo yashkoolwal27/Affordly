@@ -138,7 +138,7 @@ export default function ProductDetailPage() {
 
             <div className="flex items-center gap-4 mb-6">
               <span className="text-3xl font-display font-bold text-white">
-                ${Number(product.price).toFixed(2)}
+                ₹{Number(product.price).toFixed(2)}
               </span>
               {isOutOfStock ? (
                 <span className="badge-red">Out of Stock</span>

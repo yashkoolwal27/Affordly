@@ -4,13 +4,14 @@
 
 import { motion } from 'framer-motion';
 import HeroSection from '../components/home/HeroSection';
+import HomeJourneySection from '../components/home/HomeJourneySection';
 import CategorySection from '../components/home/CategorySection';
 import FeaturedProducts from '../components/home/FeaturedProducts';
 import { Sparkles, Truck, ShieldCheck, RotateCcw } from 'lucide-react';
 
 // Perks section data
 const perks = [
-  { icon: Truck, title: 'Free Shipping', desc: 'On orders over $100', color: 'text-neon-cyan' },
+  { icon: Truck, title: 'Free Shipping', desc: 'On orders over ₹100', color: 'text-neon-cyan' },
   { icon: ShieldCheck, title: 'Secure Payment', desc: '256-bit SSL encryption', color: 'text-neon-green' },
   { icon: RotateCcw, title: 'Easy Returns', desc: '30-day return policy', color: 'text-neon-orange' },
   { icon: Sparkles, title: 'Premium Quality', desc: 'Curated collections', color: 'text-neon-pink' },
@@ -20,6 +21,7 @@ export default function HomePage() {
   return (
     <div>
       <HeroSection />
+      <HomeJourneySection />
       <CategorySection />
       <FeaturedProducts />
 

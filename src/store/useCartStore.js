@@ -70,7 +70,7 @@ const useCartStore = create(
         );
       },
 
-      // Get shipping cost (free over $100)
+      // Get shipping cost (free over ₹100)
       getShipping: () => {
         const subtotal = get().getSubtotal();
         return subtotal > 100 ? 0 : 9.99;

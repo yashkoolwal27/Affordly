@@ -78,7 +78,7 @@ export default function ProductFilters({ isOpen, onClose }) {
         {/* Price range */}
         <div className="mb-6">
           <label className="block text-sm font-medium text-gray-400 mb-3">
-            Price Range: ${filters.minPrice} — ${filters.maxPrice}
+            Price Range: ₹{filters.minPrice} — ₹{filters.maxPrice}
           </label>
           <div className="space-y-3">
             <div>
@@ -137,10 +137,10 @@ export default function ProductFilters({ isOpen, onClose }) {
           <label className="block text-sm font-medium text-gray-400 mb-3">Quick Presets</label>
           <div className="grid grid-cols-2 gap-2">
             {[
-              { label: 'Under $50', min: 0, max: 50 },
-              { label: '$50-200', min: 50, max: 200 },
-              { label: '$200-500', min: 200, max: 500 },
-              { label: '$500+', min: 500, max: 10000 },
+              { label: 'Under ₹50', min: 0, max: 50 },
+              { label: '₹50-200', min: 50, max: 200 },
+              { label: '₹200-500', min: 200, max: 500 },
+              { label: '₹500+', min: 500, max: 10000 },
             ].map((preset) => (
               <button
                 key={preset.label}

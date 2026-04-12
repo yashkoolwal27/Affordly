@@ -20,6 +20,7 @@ import CheckoutPage from './pages/CheckoutPage';
 import AuthPage from './pages/AuthPage';
 import OrderHistoryPage from './pages/OrderHistoryPage';
 import WishlistPage from './pages/WishlistPage';
+import ShowcasePage from './pages/ShowcasePage';
 
 // Admin
 import AdminLayout from './pages/admin/AdminLayout';
@@ -103,6 +104,9 @@ export default function App() {
           />
           <Route path="/wishlist" element={<WishlistPage />} />
         </Route>
+
+        {/* 3D Showcase (No MainLayout wrapper because it manages its own fixed layout/navbar) */}
+        <Route path="/showcase" element={<ShowcasePage />} />
 
         {/* Admin Layout */}
         <Route

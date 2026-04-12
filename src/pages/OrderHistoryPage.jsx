@@ -94,7 +94,7 @@ export default function OrderHistoryPage() {
                       {order.status}
                     </span>
                     <span className="text-white font-display font-bold">
-                      ${Number(order.total_price).toFixed(2)}
+                      ₹{Number(order.total_price).toFixed(2)}
                     </span>
                     {expandedOrder === order.id ? (
                       <ChevronUp className="w-4 h-4 text-gray-500" />
@@ -128,11 +128,11 @@ export default function OrderHistoryPage() {
                         <div className="flex-1">
                           <p className="text-sm text-white">{item.products?.name || 'Product'}</p>
                           <p className="text-xs text-gray-500">
-                            Qty: {item.quantity} × ${Number(item.price).toFixed(2)}
+                            Qty: {item.quantity} × ₹{Number(item.price).toFixed(2)}
                           </p>
                         </div>
                         <span className="text-sm text-white font-medium">
-                          ${(item.quantity * item.price).toFixed(2)}
+                          ₹{(item.quantity * item.price).toFixed(2)}
                         </span>
                       </div>
                     ))}

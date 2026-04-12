@@ -164,7 +164,7 @@ export default function ProductForm({ isOpen, onClose, editProduct = null }) {
                 {/* Price & Stock */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm text-gray-400 mb-1">Price ($)</label>
+                    <label className="block text-sm text-gray-400 mb-1">Price (₹)</label>
                     <input
                       type="number"
                       step="0.01"

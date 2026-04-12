@@ -4,7 +4,7 @@
 // Overview with stats cards and recent orders.
 
 import { useEffect } from 'react';
-import { Package, ShoppingBag, DollarSign, Users } from 'lucide-react';
+import { Package, ShoppingBag, IndianRupee, Users } from 'lucide-react';
 import useAdminStore from '../../store/useAdminStore';
 import StatsCard from '../../components/admin/StatsCard';
 import OrderTable from '../../components/admin/OrderTable';
@@ -44,8 +44,8 @@ export default function AdminDashboard() {
         />
         <StatsCard
           title="Revenue"
-          value={`$${stats.totalRevenue.toFixed(2)}`}
-          icon={DollarSign}
+          value={`₹${stats.totalRevenue.toFixed(2)}`}
+          icon={IndianRupee}
           color="orange"
           index={2}
         />

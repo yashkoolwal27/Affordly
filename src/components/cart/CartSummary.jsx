@@ -21,19 +21,19 @@ export default function CartSummary() {
       <div className="space-y-3 text-sm">
         <div className="flex justify-between text-gray-400">
           <span>Subtotal ({itemCount} items)</span>
-          <span className="text-white">${subtotal.toFixed(2)}</span>
+          <span className="text-white">₹{subtotal.toFixed(2)}</span>
         </div>
 
         <div className="flex justify-between text-gray-400">
           <span>Shipping</span>
-          <span className={shipping === 0 ? 'text-neon-green' : 'text-white'}>
-            {shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`}
+          <span className={shipping === 0 ? 'text-neon-cyan' : ''}>
+            {shipping === 0 ? 'FREE' : `₹${shipping.toFixed(2)}`}
           </span>
         </div>
 
         {shipping > 0 && (
-          <p className="text-xs text-gray-600">
-            Free shipping on orders over $100
+          <p className="text-xs text-gray-500 mt-2 text-right">
+            Free shipping on orders over ₹100
           </p>
         )}
 
@@ -41,7 +41,7 @@ export default function CartSummary() {
           <div className="flex justify-between">
             <span className="font-semibold text-white">Total</span>
             <span className="font-display font-bold text-xl text-white">
-              ${total.toFixed(2)}
+              ₹{total.toFixed(2)}
             </span>
           </div>
         </div>
@@ -61,9 +61,11 @@ export default function CartSummary() {
           <ShieldCheck className="w-4 h-4 text-neon-green" />
           Secure checkout with SSL encryption
         </div>
-        <div className="flex items-center gap-2 text-xs text-gray-500">
-          <Truck className="w-4 h-4 text-neon-cyan" />
-          Free shipping on orders over $100
+        <div className="text-center mt-6">
+          <p className="text-xs text-gray-500 mb-2">Secure checkout powered by Razorpay</p>
+          <p className="text-xs text-neon-cyan">
+            Free shipping on orders over ₹100
+          </p>
         </div>
       </div>
     </div>

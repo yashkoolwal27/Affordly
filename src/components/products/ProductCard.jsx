@@ -113,7 +113,7 @@ export default function ProductCard({ product }) {
           <div className="flex items-center justify-between mt-3">
             <div>
               <span className="text-xl font-display font-bold text-white">
-                ${Number(product.price).toFixed(2)}
+                ₹{Number(product.price).toFixed(2)}
               </span>
               {product.stock > 0 && product.stock <= 5 && (
                 <span className="ml-2 text-xs text-neon-orange">Only {product.stock} left</span>

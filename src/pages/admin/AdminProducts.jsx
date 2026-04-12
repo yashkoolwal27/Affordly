@@ -129,7 +129,7 @@ export default function AdminProducts() {
                       <span className="badge-cyan capitalize text-xs">{product.category}</span>
                     </td>
                     <td className="p-4">
-                      <span className="text-white font-medium">${Number(product.price).toFixed(2)}</span>
+                      <span className="text-white font-medium">₹{Number(product.price).toFixed(2)}</span>
                     </td>
                     <td className="p-4 hidden md:table-cell">
                       <span className={`text-sm ${product.stock <= 0 ? 'text-red-400' : product.stock <= 5 ? 'text-neon-orange' : 'text-gray-400'}`}>

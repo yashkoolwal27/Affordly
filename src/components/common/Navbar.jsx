@@ -54,6 +54,7 @@ export default function Navbar() {
 
   const navLinks = [
     { name: 'Home', to: '/' },
+    { name: '3D Showcase', to: '/showcase' },
     { name: 'Products', to: '/products' },
     { name: 'Watches', to: '/products?category=watches' },
     { name: 'Fabrics', to: '/products?category=fabrics' },

@@ -75,26 +75,19 @@ export default function CheckoutPage() {
         return;
       }
 
-      // 2. Call Edge Function / Local Proxy to create Order ID
+      // 2. Call Vercel Serverless Function to create Order ID
       let orderData, orderError;
       
-      if (import.meta.env.DEV) {
-        try {
-          const proxyRes = await fetch('/api/create-razorpay-order', {
-            method: 'POST',
-            body: JSON.stringify({ amount: getTotal() })
-          });
-          orderData = await proxyRes.json();
-          if (!proxyRes.ok) orderError = orderData;
-        } catch(e) {
-          orderError = e;
-        }
-      } else {
-        const res = await supabase.functions.invoke('create-razorpay-order', {
-          body: { amount: getTotal() }
+      try {
+        const rzpRequest = await fetch('/api/create-razorpay-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount: getTotal() })
         });
-        orderData = res.data;
-        orderError = res.error;
+        orderData = await rzpRequest.json();
+        if (!rzpRequest.ok) orderError = orderData;
+      } catch (err) {
+        orderError = err;
       }
 
       if (orderError || !orderData) {
@@ -137,31 +130,23 @@ export default function CheckoutPage() {
         order_id: orderData.id,
         handler: async function (response) {
           try {
-            // 4. Verify Signature via Edge Function / Local Proxy
+            // 4. Verify Signature via Vercel Serverless Function
             let verifyData, verifyError;
             
-            if (import.meta.env.DEV) {
-              try {
-                const proxyRes = await fetch('/api/verify-razorpay-payment', {
-                  method: 'POST',
-                  body: JSON.stringify({
-                    razorpay_order_id: response.razorpay_order_id,
-                    razorpay_payment_id: response.razorpay_payment_id,
-                    razorpay_signature: response.razorpay_signature
-                  })
-                });
-                verifyData = await proxyRes.json();
-                if (!proxyRes.ok) verifyError = verifyData;
-              } catch(e) { verifyError = e; }
-            } else {
-              const res = await supabase.functions.invoke('verify-razorpay-payment', {
-                body: {
+            try {
+              const verifyRequest = await fetch('/api/verify-razorpay-payment', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
                   razorpay_order_id: response.razorpay_order_id,
                   razorpay_payment_id: response.razorpay_payment_id,
                   razorpay_signature: response.razorpay_signature
-                }
+                })
               });
-              verifyData = res.data; verifyError = res.error;
+              verifyData = await verifyRequest.json();
+              if (!verifyRequest.ok) verifyError = verifyData;
+            } catch (err) {
+              verifyError = err;
             }
 
             if (verifyError || !verifyData?.success) {

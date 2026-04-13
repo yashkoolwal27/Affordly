@@ -1,6 +1,6 @@
 import { Suspense, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { Environment, ContactShadows } from '@react-three/drei';
+import { Environment, ContactShadows, Float } from '@react-three/drei';
 import { Model } from '../showcase/Models';
 import JourneyGSAP from './JourneyGSAP';
 
@@ -18,32 +18,39 @@ export default function JourneyScene({ refs, domRefs, isMobile }) {
       <Environment preset="city" />
 
       {/* 
-        Master positioning group (piloted by MotionPath) 
-        and inner rotational group (simple item spinning)
+        Individual groups controlled precisely by GSAP.
+        Float applies the continuous micro-animations automatically.
       */}
-      <group ref={refs.masterPathRef}>
-        <group ref={refs.rotatorRef}>
-          <group ref={refs.shoesRef}>
-            <Suspense fallback={null}>
-              <Model type="shoes" />
-            </Suspense>
-          </group>
-          <group ref={refs.watchRef}>
-            <Suspense fallback={null}>
-              <Model type="watch" />
-            </Suspense>
-          </group>
-          <group ref={refs.fabricRef}>
-            <Suspense fallback={null}>
-              <Model type="fabric" />
-            </Suspense>
-          </group>
-          <group ref={refs.corsetRef}>
-            <Suspense fallback={null}>
-              <Model type="corset" />
-            </Suspense>
-          </group>
-        </group>
+      <group ref={refs.shoesRef}>
+        <Float speed={2} rotationIntensity={0.5} floatIntensity={1}>
+          <Suspense fallback={null}>
+            <Model type="shoes" />
+          </Suspense>
+        </Float>
+      </group>
+
+      <group ref={refs.watchRef}>
+        <Float speed={2} rotationIntensity={1} floatIntensity={1}>
+          <Suspense fallback={null}>
+            <Model type="watch" />
+          </Suspense>
+        </Float>
+      </group>
+
+      <group ref={refs.fabricRef}>
+        <Float speed={1.5} rotationIntensity={0.2} floatIntensity={1.5}>
+          <Suspense fallback={null}>
+            <Model type="fabric" />
+          </Suspense>
+        </Float>
+      </group>
+
+      <group ref={refs.corsetRef}>
+        <Float speed={2} rotationIntensity={0.5} floatIntensity={0.8}>
+          <Suspense fallback={null}>
+            <Model type="corset" />
+          </Suspense>
+        </Float>
       </group>
 
       {/* Soft shadow plane matching the height */}

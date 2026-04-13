@@ -36,28 +36,36 @@ export default function HomeJourneySection() {
   const ProductCard = ({ refObject, title, category, align = "left", alignmentClasses }) => (
     <div 
       ref={refObject} 
-      className={`absolute top-1/2 -translate-y-1/2 p-6 md:p-10 pointer-events-none w-full max-w-sm lg:max-w-md ${alignmentClasses}`}
+      // Mobile: bottom banner, full width minus padding. Desktop: vert-center, side aligned.
+      className={`absolute pointer-events-none z-50 
+        bottom-10 left-4 right-4 w-auto
+        md:bottom-auto md:top-1/2 md:-translate-y-1/2 md:w-full md:max-w-sm lg:max-w-md 
+        ${alignmentClasses}`}
       style={{ opacity: 0 }} // Hidden initially by GSAP
     >
-      <div className="glass-card p-6 md:p-8 border border-white/10 shadow-2xl relative overflow-hidden pointer-events-auto">
+      <div className="glass-card p-4 md:p-8 border border-white/10 shadow-2xl relative overflow-hidden pointer-events-auto flex flex-col md:block">
         {/* Glow backdrop inside card */}
         <div className="absolute top-0 right-0 w-32 h-32 bg-neon-cyan/20 blur-3xl rounded-full" />
         
-        <h3 className="text-3xl md:text-5xl font-display font-bold text-white mb-4 relative z-10">
-          {title}
-        </h3>
-        <p className="text-gray-400 mb-6 text-sm md:text-base relative z-10">
-          Experience the pinnacle of {" "}
-          <span className="text-neon-cyan font-semibold">{category}</span> design 
-          with our exclusive collection. Stunning visuals meet uncompromising quality.
-        </p>
-        
-        <Link 
-          to={`/products?category=${category}`} 
-          className="btn-neon inline-flex relative z-10"
-        >
-          Shop Now
-        </Link>
+        <div className="flex flex-row md:flex-col justify-between items-center md:items-start gap-4">
+          <div className="flex-1">
+            <h3 className="text-xl sm:text-2xl md:text-5xl font-display font-bold text-white mb-0 md:mb-4 relative z-10 w-full">
+              {title}
+            </h3>
+            <p className="text-gray-400 text-xs sm:text-sm md:text-base relative z-10 hidden md:block">
+              Experience the pinnacle of {" "}
+              <span className="text-neon-cyan font-semibold">{category}</span> design 
+              with our exclusive collection. Stunning visuals meet uncompromising quality.
+            </p>
+          </div>
+          
+          <Link 
+            to={`/products?category=${category}`} 
+            className="btn-neon text-sm md:text-base px-4 py-2 md:px-6 md:py-3 whitespace-nowrap relative z-10"
+          >
+            Shop Now
+          </Link>
+        </div>
       </div>
     </div>
   );

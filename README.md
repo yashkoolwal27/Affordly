@@ -4,7 +4,7 @@ A full-stack, dark-themed e-commerce web application with neon accents built wit
 
 # website 
 
-[https://github.com/user-attachments/assets/248739b9-b173-4b11-9b40-6c3cbb4b3e92](https://affordly-three.vercel.app)
+https://github.com/user-attachments/assets/248739b9-b173-4b11-9b40-6c3cbb4b3e92
 
  [Affordly](https://affordly-three.vercel.app)
 

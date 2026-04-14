@@ -4,7 +4,7 @@ A full-stack, dark-themed e-commerce web application with neon accents built wit
 
 # website 
 
-[Check out Google](https://google.com)
+[Affordly](https://affordly-three.vercel.app)
 
 ## Features
 - **Frontend**: React 18, Vite, React Router v6, Tailwind CSS v3

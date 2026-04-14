@@ -3,7 +3,7 @@
 A full-stack, dark-themed e-commerce web application with neon accents built with React, Vite, Tailwind CSS, and Supabase.
 
 # website 
-affordly-three.vercel.app
+[affordly-three.vercel.app](url)
 
 ## Features
 - **Frontend**: React 18, Vite, React Router v6, Tailwind CSS v3

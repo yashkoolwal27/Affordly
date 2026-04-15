@@ -12,11 +12,11 @@ import toast from 'react-hot-toast';
 
 export default function AuthPage() {
   const navigate = useNavigate();
-  const { login, signUp, loading, user } = useAuthStore();
+  const { login, signUp, signInWithGoogle, loading, user } = useAuthStore();
 
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
-    name: '', email: '', password: '',
+    name: '', email: '', password: '', role: 'customer', seller_category: 'watches',
   });
 
   // If already logged in, redirect
@@ -44,7 +44,13 @@ export default function AuthPage() {
         toast.error('Please enter your name');
         return;
       }
-      const result = await signUp(formData.email, formData.password, formData.name);
+      const result = await signUp(
+        formData.email, 
+        formData.password, 
+        formData.name, 
+        formData.role, 
+        formData.role === 'seller' ? formData.seller_category : null
+      );
       if (result.success) {
         toast.success('Account created! Welcome to Affordly!', {
           icon: '🎉',
@@ -104,7 +110,31 @@ export default function AuthPage() {
           </button>
         </div>
 
-        {/* Form */}
+        {/* Google Sign-In Button */}
+        <button
+          type="button"
+          onClick={signInWithGoogle}
+          disabled={loading}
+          className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all duration-200 text-white font-medium text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {/* Google SVG Icon */}
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.64 9.205c0-.639-.057-1.252-.164-1.841H9v3.481h4.844a4.14 4.14 0 01-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/>
+            <path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z" fill="#34A853"/>
+            <path d="M3.964 10.71A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/>
+            <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z" fill="#EA4335"/>
+          </svg>
+          Continue with Google
+        </button>
+
+        {/* Divider */}
+        <div className="relative flex items-center gap-3">
+          <div className="flex-1 h-px bg-white/10" />
+          <span className="text-xs text-gray-500 uppercase tracking-wider">or</span>
+          <div className="flex-1 h-px bg-white/10" />
+        </div>
+
+        {/* Email/Password Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Name (signup only) */}
           {!isLogin && (
@@ -114,7 +144,7 @@ export default function AuthPage() {
               exit={{ opacity: 0, height: 0 }}
             >
               <label className="block text-sm text-gray-400 mb-1">Full Name</label>
-              <div className="relative">
+              <div className="relative mb-4">
                 <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
                 <input
                   type="text"
@@ -124,6 +154,54 @@ export default function AuthPage() {
                   placeholder="John Doe"
                 />
               </div>
+
+              {/* Account Type Selection */}
+              <label className="block text-sm text-gray-400 mb-1">Account Type</label>
+              <div className="flex gap-2 mb-4">
+                <button
+                  type="button"
+                  onClick={() => setFormData({ ...formData, role: 'customer' })}
+                  className={`flex-1 py-2 rounded-lg text-sm font-medium border transition-all ${
+                    formData.role === 'customer' 
+                      ? 'border-neon-cyan text-neon-cyan bg-neon-cyan/5' 
+                      : 'border-white/10 text-gray-400 hover:border-white/20'
+                  }`}
+                >
+                  Customer
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setFormData({ ...formData, role: 'seller' })}
+                  className={`flex-1 py-2 rounded-lg text-sm font-medium border transition-all ${
+                    formData.role === 'seller' 
+                      ? 'border-neon-green text-neon-green bg-neon-green/5' 
+                      : 'border-white/10 text-gray-400 hover:border-white/20'
+                  }`}
+                >
+                  Seller
+                </button>
+              </div>
+
+              {/* Seller Category */}
+              {formData.role === 'seller' && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  className="mb-4"
+                >
+                  <label className="block text-sm text-gray-400 mb-1">Primary Category</label>
+                  <select
+                    value={formData.seller_category}
+                    onChange={(e) => setFormData({ ...formData, seller_category: e.target.value })}
+                    className="input-field w-full appearance-none bg-dark-600"
+                  >
+                    <option value="watches">Watches</option>
+                    <option value="shoes">Shoes</option>
+                    <option value="fabrics">Fabrics</option>
+                    <option value="corsets">Corsets</option>
+                  </select>
+                </motion.div>
+              )}
             </motion.div>
           )}
 

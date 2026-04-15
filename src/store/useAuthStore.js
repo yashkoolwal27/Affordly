@@ -38,11 +38,30 @@ const useAuthStore = create((set, get) => ({
       // Listen for auth changes
       supabase.auth.onAuthStateChange(async (event, session) => {
         if (session?.user) {
-          const { data: profile } = await supabase
+          // Fetch existing profile
+          let { data: profile } = await supabase
             .from('users')
             .select('*')
             .eq('id', session.user.id)
             .single();
+
+          // If no profile exists (e.g. first-time Google OAuth user), create one
+          if (!profile) {
+            const { data: newProfile } = await supabase
+              .from('users')
+              .upsert({
+                id: session.user.id,
+                email: session.user.email,
+                name: session.user.user_metadata?.full_name ||
+                      session.user.user_metadata?.name ||
+                      session.user.email?.split('@')[0],
+                role: 'customer',
+              }, { onConflict: 'id' })
+              .select()
+              .single();
+            profile = newProfile;
+          }
+
           set({ user: session.user, profile });
         } else {
           set({ user: null, profile: null });
@@ -54,7 +73,7 @@ const useAuthStore = create((set, get) => ({
   },
 
   // Sign up with email & password
-  signUp: async (email, password, name) => {
+  signUp: async (email, password, name, role = 'customer', seller_category = null) => {
     try {
       set({ loading: true, error: null });
 
@@ -67,7 +86,8 @@ const useAuthStore = create((set, get) => ({
           id: data.user.id,
           email: data.user.email,
           name,
-          role: 'customer',
+          role,
+          seller_category,
         });
         if (profileError) throw profileError;
 
@@ -111,6 +131,29 @@ const useAuthStore = create((set, get) => ({
     }
   },
 
+  // Sign in with Google OAuth
+  signInWithGoogle: async () => {
+    try {
+      set({ loading: true, error: null });
+      const redirectTo = `${window.location.origin}/auth/callback`;
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo,
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+          },
+        },
+      });
+      if (error) throw error;
+      // Browser will redirect to Google — loading state stays until redirect
+    } catch (err) {
+      set({ error: err.message, loading: false });
+      return { success: false, error: err.message };
+    }
+  },
+
   // Logout
   logout: async () => {
     await supabase.auth.signOut();
@@ -120,6 +163,11 @@ const useAuthStore = create((set, get) => ({
   // Check if current user is admin
   isAdmin: () => {
     return get().profile?.role === 'admin';
+  },
+
+  // Check if current user is seller
+  isSeller: () => {
+    return get().profile?.role === 'seller';
   },
 
   // Clear error

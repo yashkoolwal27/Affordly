@@ -9,7 +9,7 @@ import { Navigate } from 'react-router-dom';
 import useAuthStore from '../../store/useAuthStore';
 import LoadingSpinner from './LoadingSpinner';
 
-export default function ProtectedRoute({ children, adminOnly = false }) {
+export default function ProtectedRoute({ children, adminOnly = false, sellerOnly = false }) {
   const { user, profile, loading } = useAuthStore();
 
   // Still checking auth state
@@ -28,6 +28,11 @@ export default function ProtectedRoute({ children, adminOnly = false }) {
 
   // Admin-only route but user is not admin
   if (adminOnly && profile?.role !== 'admin') {
+    return <Navigate to="/" replace />;
+  }
+
+  // Seller-only route but user is not seller (admin can bypass)
+  if (sellerOnly && profile?.role !== 'seller' && profile?.role !== 'admin') {
     return <Navigate to="/" replace />;
   }
 

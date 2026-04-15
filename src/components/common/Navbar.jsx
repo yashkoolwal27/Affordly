@@ -17,6 +17,7 @@ import {
   Search,
   Package,
   Shield,
+  Store,
   ChevronDown,
 } from 'lucide-react';
 import useAuthStore from '../../store/useAuthStore';
@@ -25,7 +26,7 @@ import useWishlistStore from '../../store/useWishlistStore';
 
 export default function Navbar() {
   const navigate = useNavigate();
-  const { user, profile, logout, isAdmin } = useAuthStore();
+  const { user, profile, logout, isAdmin, isSeller } = useAuthStore();
   const getTotalItems = useCartStore((s) => s.getTotalItems);
   const wishlistItems = useWishlistStore((s) => s.items);
 
@@ -168,6 +169,16 @@ export default function Navbar() {
                           className="flex items-center gap-2 px-3 py-2 text-sm text-neon-orange hover:bg-neon-orange/5 rounded-lg transition-all"
                         >
                           <Shield className="w-4 h-4" /> Admin Panel
+                        </Link>
+                      )}
+
+                      {isSeller() && (
+                        <Link
+                          to="/seller"
+                          onClick={() => setUserMenuOpen(false)}
+                          className="flex items-center gap-2 px-3 py-2 text-sm text-neon-green hover:bg-neon-green/5 rounded-lg transition-all"
+                        >
+                          <Store className="w-4 h-4" /> Seller Dashboard
                         </Link>
                       )}
 

@@ -57,14 +57,14 @@ export default function OrderTable({ orders }) {
                   #{order.id.slice(0, 8)}
                 </p>
                 <p className="text-white text-sm font-medium">
-                  {order.users?.name || 'Unknown User'}
+                  {order.shipping_address?.name || order.users?.name || order.users?.email || 'Unknown User'}
                 </p>
               </div>
             </div>
 
             <div className="flex items-center gap-4">
               <span className="text-sm font-display font-bold text-white">
-                ${Number(order.total_price).toFixed(2)}
+                ₹{Number(order.total_price).toFixed(2)}
               </span>
 
               {/* Status dropdown */}
@@ -153,11 +153,11 @@ export default function OrderTable({ orders }) {
                             {item.products?.name || 'Unknown Product'}
                           </p>
                           <p className="text-xs text-gray-500">
-                            Qty: {item.quantity} × ${Number(item.price).toFixed(2)}
+                            Qty: {item.quantity} × ₹{Number(item.price).toFixed(2)}
                           </p>
                         </div>
                         <span className="text-sm text-white font-medium">
-                          ${(item.quantity * item.price).toFixed(2)}
+                          ₹{(item.quantity * item.price).toFixed(2)}
                         </span>
                       </div>
                     ))}

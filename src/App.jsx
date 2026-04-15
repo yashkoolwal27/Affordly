@@ -18,6 +18,7 @@ import ProductDetailPage from './pages/ProductDetailPage';
 import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
 import AuthPage from './pages/AuthPage';
+import AuthCallbackPage from './pages/AuthCallbackPage';
 import OrderHistoryPage from './pages/OrderHistoryPage';
 import WishlistPage from './pages/WishlistPage';
 import ShowcasePage from './pages/ShowcasePage';
@@ -27,6 +28,12 @@ import AdminLayout from './pages/admin/AdminLayout';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminProducts from './pages/admin/AdminProducts';
 import AdminOrders from './pages/admin/AdminOrders';
+
+// Seller
+import SellerLayout from './pages/seller/SellerLayout';
+import SellerDashboard from './pages/seller/SellerDashboard';
+import SellerProducts from './pages/seller/SellerProducts';
+import SellerOrders from './pages/seller/SellerOrders';
 
 // ==========================================
 // Main Layout (Customer-facing)
@@ -84,6 +91,7 @@ export default function App() {
           <Route path="/products/:id" element={<ProductDetailPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/auth" element={<AuthPage />} />
+          <Route path="/auth/callback" element={<AuthCallbackPage />} />
           
           {/* Protected customer routes */}
           <Route
@@ -120,6 +128,20 @@ export default function App() {
           <Route index element={<AdminDashboard />} />
           <Route path="products" element={<AdminProducts />} />
           <Route path="orders" element={<AdminOrders />} />
+        </Route>
+
+        {/* Seller Layout */}
+        <Route
+          path="/seller"
+          element={
+            <ProtectedRoute sellerOnly>
+              <SellerLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<SellerDashboard />} />
+          <Route path="products" element={<SellerProducts />} />
+          <Route path="orders" element={<SellerOrders />} />
         </Route>
 
         {/* 404 Catch-all */}

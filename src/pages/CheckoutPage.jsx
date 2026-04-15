@@ -91,10 +91,13 @@ export default function CheckoutPage() {
       }
 
       if (orderError || !orderData) {
-        console.warn("Edge Function failed:", orderError);
-        toast.error('Local Environment Detected: Bypassing Edge Functions', { icon: '⚠️' });
+        console.warn("Vercel API failed:", orderError);
+        
+        let errorMsg = orderError?.error || "Failed to contact payment server.";
+        toast.error(`API Error: ${errorMsg}`, { icon: '⚠️', duration: 5000 });
+        toast.error("Falling back to local simulation mode.", { duration: 3000 });
 
-        // MOCK PAYMENT FLOW FOR LOCAL TESTING
+        // MOCK PAYMENT FLOW FOR LOCAL TESTING OR FAILURES
         setTimeout(async () => {
           toast.success("Mock Razorpay Window (Simulated UI)");
           // Simulate 2 seconds of the user typing in details
